@@ -1,0 +1,136 @@
+\title{Math 239 Fall 2023 Tutorial Answers Week 2}
+
+\date{2023 Sep. 21/22}
+\maketitle
+
+\begin{enumerate}
+    \question{Even and Odd} Let 
+        $E = \{2,4,6,\cdots\}$,  
+        $O = \{1,3,4,\cdots\}$.  The set of all compositions of $3$ parts with exactly $2$ even parts is $$S= (E \times E \times O) \cup (E \times O \times E)  \cup  (O \times E \times E).$$   
+    Define the weight function $w(a,b,c) = a+b+c$ for each $(a,b,c) \in S$. Consider the weight function $\alpha(a) = a$ on $E$ and $O$.  The generating series for $E$ and $O$ with respect to $\alpha$ is given by 
+    $$\Phi^\alpha_E(x) = x^2 + x^4 + x^6 + \cdots =\frac{x^2}{1-x^2}\,\Phi^\alpha_O(x) = x^1 + x^3 + x^5\cdots =\frac{x}{1-x^2}\,.$$
+    
+    Using the product lemma, 
+    $$\Phi^w_{E \times E \times O}(x) = (\Phi^\alpha_E(x))^2 \Phi^\alpha_O(x) = \frac{x^5}{(1-x^2)^3}.$$
+    
+    Similarly, $$\Phi^w_{E \times O \times E}(x) = \Phi^w_{O \times E \times E}(x)= \frac{x^5}{(1-x^2)^3}.$$ 
+    
+    By the sum lemma, $$\Phi^w_S(x) = \Phi^w_{E \times E \times O}(x) + \Phi^w_{E \times O \times E}(x) + \Phi^w_{O \times E \times E}(x) = \frac{3 x^5}{(1-x^2)^3}$$
+    
+    Applying the negative binomial theorem, 
+    \begin{align} 
+        \Phi^w_S(x) = 3 x^5 \sum_{l \geq 0} {l+2 \choose 2} x^{2l} = \sum_{l \geq 0} 3 {l+2 \choose 2}x^{5+2l}.
+        \label{compos}
+    \end{align}
+    
+    The number of compositions of $n \geq 0$ with the stated properties is given  by $[x^n]\Phi^w_S(x)$.  
+    
+    Using equation (\ref{compos}):\\$[x^n]\Phi^w_S(x) = 0$ for $0 \leq n \leq 4$ or for $n$ even, \\and for $n \geq 5$, $n$ odd, let $n=5+2l$ (or $l=(n-5)/2$), with $[x^n]\Phi^w_S(x) = 3 {l+2 \choose 2} = 3 {(n-1)/2 \choose 2}$.
+
+    % \newpage
+    
+    \question{Power Series} 
+
+    \begin{itemize}
+        \item $\sum_{n \ge 0} n^2x^n = x\sum_{n \ge 0}\frac{d}{dx}nx^n = x\frac{d}{dx}\sum_{n \ge 0}xn^n = \frac{x}{(1-x)^2} + \frac{2x^2}{(1-x)^3}$
+        \item $\sum_{n \ge 0}3^nx^n = \sum_{n \ge 0}(3x)^n = \frac{1}{1 - 3x}$
+        \item $\sum_{n \ge 0} (3\cdot 7^n - 5 \cdot 4^n)x^n = \sum_{n \ge 0} 3\cdot 7^nx^n - 5 \cdot 4^nx^n = \sum_{n \ge 0} 3\cdot 7^nx^n - \sum_{n \ge 0} 5 \cdot 4^nx^n = 3\cdot \sum_{n \ge 0} 7^nx^n - 5 \cdot\sum_{n \ge 0} 4^nx^n = 3\cdot \sum_{n \ge 0} (7x)^n - 5 \cdot\sum_{n \ge 0} (4x)^n = \frac{3}{1 - 7x} - \frac{5}{1 - 4x}$
+    \end{itemize}
+
+    % \newpage
+    
+    \question{Some Less-Usual Coefficient Extraction} The first two are straightforward and the last two are less so (but still straightforward).
+    \begin{enumerate}
+        \item 
+        \begin{align*}
+            [x^n] \left[ \frac{1}{2-x^2} \right] = \frac{1}{2}[x^n] \left[ \frac{1}{1-(\frac{x^2}{2})} \right] = \frac{1}{2} [x^n] \sum_{i \geq 0} \left(\frac{x^2}{2}\right)^i = \begin{cases}
+                \frac{1}{2} \cdot \frac{1}{2^k} & n = 2k,\\
+                0 & n \neq 2k.
+            \end{cases}
+        \end{align*}
+        \item 
+        \begin{align*}
+            [x^n] \left[ \frac{1}{1-x} \cdot \frac{1}{1-3x} \right] = [x^n] \sum_{i \geq 0} x^i \cdot \sum_{j \geq 0} 3^j x^j.
+        \end{align*}
+        Now think about how many ways we can get $x^n$ from the first sum and the second sum. Either we get all our $x^n$ from the first, or $x^{n-1}$ from the first and $3 x$ from the second etc. It follows that
+        \begin{align*}
+            [x^n] \sum_{i \geq 0} x^i \cdot \sum_{j \geq 0} 3^j x^j &= 1 + 3 + \cdots + 3^n.
+        \end{align*}
+        One may note also that this can be seen as a partial ``geometric sum" to give
+        \begin{align*}
+            1 + 3 + \cdots + 3^n = \frac{3^{n+1} - 1}{3-1}.
+        \end{align*}
+        \item
+        \begin{align*}
+            [x^n] \left[ (1+ax)^k \right] = [x^n] \sum_{i = 0}^k \binom{k}{i} a^{i} x^i =
+                \binom{k}{n} a^n.
+        \end{align*}
+        Note here that $\binom{k}{n} = 0$ if $n \not\in \{ 0, \cdots, k\}$.
+        \item
+        \begin{align*}
+            [x^n] \left[ (1+x^l)^k \right] &= [x^n] \sum_{i=0}^k \binom{k}{i} x^{il}\\ &= [x^n] \left[\binom{k}{0} x^{0} + \binom{k}{1} x^l + \binom{k}{2} x^{2l} + \cdots + \binom{k}{k} x^{kl} \right]\\
+            &=
+            \begin{cases}
+                \binom{k}{n/l} & n = 0 \mod l,\\
+                0 & n \neq 0 \mod l.
+            \end{cases}
+        \end{align*}
+    \end{enumerate}
+
+    \newpage
+    
+    \question{Sum Lemma} 
+\begin{enumerate}
+    \item Consider for one dice situation. $\mathcal{A} = \{1,2,3,4,5,6\} , $ with weight function $\omega(a) = a$, then the generating series of $\Phi_{\mathcal{A}}$ with respect to $\omega$ is $$\Phi_{\mathcal{A}}(x) = \sum_{k=1}^6 x^k = x \sum_{k=0}^5 x^k = x\frac{1-x^6}{1-x} = \frac{x-x^7}{1-x}$$
+    Since $ \mathscr{S}= \mathcal{A}^4$,
+    $$
+    \Phi_\mathscr{S}(x) = \Phi_\mathcal{A}^4 = (\frac{x-x^7}{1-x})^4
+    $$
+    \item  
+\begin{align*}
+ [x^{19}]\Phi_\mathcal{A}(x) &= [x^{19}] (\frac{x-x^7}{1-x})^4 \\
+ &= [x^{19}](x-x^7)^4 \frac{1}{(1-x)^4}   \\
+ &= \sum_{k=0}^{19} [x^k]\left(x^4(1-x^6)^4\right) [x^{19-k}]\frac{1}{(1-x)^4}\\
+ &= \sum_{k=4}^{19}[x^{k-4}](1-x^6)^4 [x^{19-k}]\sum_{n=0}^{\infty} \binom{n + 4 - 1}{4-1} x^n \\
+ &= \sum_{k=4}^{19}[x^{k-4}](1-x^6)^4 \binom{19-k + 3}{3} \\
+ &= \sum_{k=4}^{19} [x^{k-4}]\sum_{i=0}^4\binom{4}{i}x^{6i} \binom{22-k}{3} \\
+ &= \sum_{k=4}^{19} \sum_{6 | (k-4)} \binom{4}{(k-4)/6} \binom{22-k}{3} \\
+ & = \binom{4}{0} \binom{22-4}{3} + \binom{4}{1} \binom{22-10}{3} + \binom{4}{2} \binom{22-16}{3}
+\end{align*}
+ \item The number of outcomes is characterized by coefficients of $x^k$ of the generating series,
+ \begin{align*}   
+ [x^k]\left(\frac{x-x^{d+1}}{1-x}\right)^m &= \sum_{i=0}^{k} [x^{i-m}](1-x^d)^m [x^{n-i}]\frac{1}{(1-x)^m}\\
+ &= \sum_{i=0}^k \sum_{d|(i-m)}\binom{m}{(i-m)/d}\binom{n-i+m-1}{m-1}
+ \end{align*}
+ 
+
+\end{enumerate}
+    \newpage
+    
+    \question{Bonus Material: Formal Derivatives}
+    Answers are
+    \begin{enumerate}
+        \item $[x^n] \left[ \frac{\dif}{\dif x} A(x) \right] = (n+1) a_{n+1}$.
+        \item $[x^n] \left[ x \frac{\dif }{\dif x} A(x)  \right] = n a_n $.
+        \item 
+        \begin{enumerate}
+            \item Here we just let $a_n = 1$ to get that $[x^n] \left[ x \frac{\dif }{\dif x} \frac{1}{1-x}  \right] = n$. Taking a derivative in the normal way and then multiplying by $x$ gives that the generating function for $n$ is
+            \begin{align*}
+                \frac{x}{(1-x)^2}.
+            \end{align*}
+            \item If we let $a_n = n$ we get that applying $x \frac{\dif}{\dif x}$ to $\frac{1}{1-x}$ twice gives us the generating function for $n^2$. Thus it is
+            \begin{align*}
+                \frac{x(x+1)}{(1-x)^3}.
+            \end{align*}
+            \item The first few powers of $n$ are
+            \begin{align*}
+            n^0\to &\frac{1}{1-x},\\
+            n^1\to &\frac{x}{(1-x)^2},\\
+            n^2\to &\frac{x(x+1)}{(1-x)^3},\\
+            n^3\to &\frac{x(x^2 + 4x+1)}{(1-x)^4},\\
+            n^4\to &\frac{x(x^3 + 11x^2 + 11x +1)}{(1-x)^5}.
+            \end{align*}
+            I know of no general formula or pattern, and factoring these does not give a whole lot.
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}

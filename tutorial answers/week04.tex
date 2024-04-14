@@ -1,0 +1,107 @@
+\title{Math 239 Fall 2023 Tutorial Answers Week 4}
+
+\date{2023 Oct. 05/06}
+\maketitle
+
+\begin{enumerate}
+    \question{Warm-up Recursive Expressions}
+    \begin{enumerate}
+        \item Consider the representation for all binary strings given by
+        \begin{align*}
+            \{ 0\}^* \big( \{ 1\} \{1\}^* \{ 0 \} \{ 0 \}^*  \big)^* \{1\}^*.
+        \end{align*}
+        Changing this by writing $11$ instead of $1$ gives
+        \begin{align*}
+            \{ 0\}^* \big( \{ 11\} \{11\}^* \{ 0 \} \{ 0 \}^*  \big)^* \{11\}^*.
+        \end{align*}
+        Note a shorter expression is $\{ 0 ,11 \}^*$. A recursive expression can be given by
+        \begin{align*}
+            T = \epsilon \cup \{ 0,11\} T.
+        \end{align*}
+        Finding the generating function of the first expression gives $\frac{1}{1-x-x^2}$. Finding the generating function of the second expression gives $T(x) = 1 + (x+x^2)T(x)$, which indeed simplifies to $T(x) = \frac{1}{1-x-x^2}$.
+        \item This is simply $T = \epsilon \cup 0T1 \cup 1T0$. Solving this gives $T(x) = \frac{1}{1-2x^2}$. It is not possible to write a non-recursive expression for this, since regular expressions are memory-less, and we need a memory to write this down left-to-right.
+    \end{enumerate}
+    
+    \question{Partial Fractions}
+The denominator factors as
+    \[1-9x^2 = (1-3x)(1+3x).\]
+    Hence we have
+    \[\frac{18 + 12x}{1-9x^2} = \frac{A}{1-3x} + \frac{B}{1+3x}\]
+    for some constants $A$ and $B$. We have the relation
+    \[A(1+3x) + B(1-3x) = 18 + 12x,\]
+    yielding the system of equations
+    \begin{align*}
+        A + B &= 18\\
+        3A - 3B &= 12
+    \end{align*}
+    which can be solved to find that $A=11$ and $B=7$.
+    
+    Thus
+    \begin{align*}
+        q_n &= [x^n]\frac{18 + 12x}{1-9x^2} \\
+        &= [x^n]\frac{11}{1-3x} + [x^n]\frac{7}{1+3x}\\
+        &= 11 \cdot 3^n + 7 \cdot (-3)^n
+    \end{align*}
+
+    % \newpage
+    
+    \question{Avoiding Substrings}
+    (a) We claim 
+        \begin{align*}
+             S\{0,1\}\cup\{\epsilon\}=S\cup T \\
+             S\{011\}=T
+        \end{align*}
+    To see that $S\{0,1\}\cup\{\epsilon\}\subseteq S\cup T$, note that $\epsilon \in S\cup T$. If $\alpha \in S$, then $\alpha 0\in S$, and $\alpha 1$ can contain at most one occurrence of 011, and if it occurs it must be at the end of the string. Thus, $\alpha 1\in S\cup T$. This verifies $S\{0,1\}\cup\{\epsilon\}\subseteq S\cup T$. To see the other direction, for any $\alpha\in S\cup T$, either $\alpha=\epsilon$, or $\alpha=\beta\gamma$ where $\gamma\in\{0,1\}$. Moreover, by the definition of $S$ and $T$, $\beta$ cannot contain 011 as a substring. So $\beta\in S$. This verifies the first equation above.
+
+    For the second equation, it is obvious that $T\subseteq S\{011\}$ by the definition of $S$ and $T$. For the other direction, for any $\alpha\in S$, $\alpha$ is 011-free. Moreover, by looking at the last three bits of $\alpha0$, $\alpha01$, it is clear that $\alpha0$ and $\alpha01$ are both 011-free. Thus, $\alpha011$ has exactly one occurrence of 011 at its very end. Hence, $S\{011\}\subseteq T$. This verifies the second equation. 
+
+    (b) First we show that the equations in (a) are unambiguous. For the first equation, $S\{0,1\}$ is obviously unambiguous. Since $\epsilon \notin S\{0,1\}$, the union on the LHS of the equation is disjoint, it follows that the set expression on the LHS is unambiguous. For the RHS, since $S\cap T=\emptyset$, the set expression is also unambiguous.
+    The second equation is unambiguous because $S\{011\}$ is unambiguous. Let $\Phi_S(x)$ and $\Phi_T(x)$ denote the generating series for $S$ and $T$ respectively with respect to the lengths of the strings. It follows from the equations above, and the sum and product lemmas, that $$2x\Phi_S(x)+1=\Phi_S(x)+\Phi_T(x)$$ $$x^3\Phi_S(x)=\Phi_T(x).$$
+    Therefore,
+    \[\Phi_S(x)=\frac{1}{1-2x+x^3}=\frac{1}{(1-x)(1-x-x^2)}.\]
+
+    (c) Using partial fraction, we have $$\Phi_S(x)=-\frac{1}{1-x}+\frac{1-2\sqrt{5}/5}{1+2x/(\sqrt{5}+1)}+\frac{1+2\sqrt{5}/5}{1-2x/(\sqrt{5}-1)}$$ $$=\sum_{n\ge 0}(-1+(1-\frac{2\sqrt{5}}{5})(-\frac{2}{\sqrt{5}+1})^n$$ 
+    $$+(1+\frac{2\sqrt{5}}{5})(\frac{2}{\sqrt{5}-1})^n) x^n$$ 
+    Thus, the number of binary strings of length $n$ that do not contain 011 as a substring is \[-1+\left(1-\frac{2\sqrt{5}}{5}\right)\left(-\frac{2}{\sqrt{5}+1}\right)^n+\left(1+\frac{2\sqrt{5}}{5}\right)\left(\frac{2}{\sqrt{5}-1}\right)^n\] for every nonnegative integer $n$.   
+
+    
+    \question{Recurrence} The characteristic polynomial is 
+    \begin{center}
+        $1 - 2x -7x^2 = (1 + x)^2(1 - 4x)$.
+    \end{center}
+     So we have $\lambda_1 = -1$, $\lambda_2 = 4$, $d_1 = 2$, and $d_2 = 1$. This gives us that our general solution is of the form 
+
+    \begin{center}
+        $a_n = P_1(n)(-1)^n + P_2(n) \cdot 4^n$
+    \end{center}
+
+    where $\mathrm{deg}(P_1) < d_1 = 2$ and $\mathrm{deg}(P_2) < d_2 = 1$. So
+
+    \begin{center}
+        $a_n = (A + B)(-1)^n + C \cdot 4^n$
+    \end{center}
+
+    for constants $A, B, C$. Substitute using initial conditions: 
+
+    \begin{center}
+        $a_0 = 3 = A + C$
+
+        $a_1 = 7 = (A + B)(-1) + C\cdot 4 = -A -B + 4C$
+
+        $a_2 = 8 = (A + 2B) + C\cdot 4^2 = A + 2B + 16C$
+        
+    \end{center}
+
+Solving for the constants, we get
+
+\begin{center}
+    $A = 2,\ \ \ B = -5,\ \ \ C = 1$
+\end{center}
+
+Thus 
+
+\begin{center}
+    $a_n = (2 - 5n)(-1)^n + 4^n$
+\end{center}
+
+\end{enumerate}
